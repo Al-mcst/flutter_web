@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:watcher_web/router.dart';
+import 'package:watcher_web/app_router.dart';
 import 'package:watcher_web/generated/l10n.dart';
 import 'package:watcher_web/providers/app_preferences_provider.dart';
 import 'package:watcher_web/providers/user_data_provider.dart';
