@@ -1,13 +1,37 @@
+import 'package:watcher_web/constants.dart';
+import 'package:watcher_web/controllers/MenuAppController.dart';
+import 'package:watcher_web/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:watcher_web/environment.dart';
-import 'package:watcher_web/root_app.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+void main() {
+  runApp(const MyApp());
+}
 
-  Environment.init(
-    apiBaseUrl: 'https://example.com',
-  );
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  runApp(const RootApp());
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Admin Panel',
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: bgColor,
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+            .apply(bodyColor: Colors.white),
+        canvasColor: secondaryColor,
+      ),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => MenuAppController(),
+          ),
+        ],
+        child: const MainScreen(),
+      ),
+    );
+  }
 }
