@@ -1,5 +1,5 @@
 name: watcher_web
-description: Admin Website
+description: Watcher Admin Website
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -34,9 +34,16 @@ dependencies:
   google_fonts: ^2.1.0
   flutter_svg: ^0.22.0
   fl_chart: ^0.36.1
-  provider: ^5.0.0
+  provider: ^6.0.5
   data_table_2: ^2.0.3
-
+  cloud_firestore: ^4.5.1
+  firebase_auth: ^4.4.1
+  firebase_core: ^2.9.0
+  fluttertoast: ^8.0.8
+  mongo_dart: ^0.9.1
+  flutter_bloc: ^8.1.2
+  equatable: ^2.0.3
+  
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5

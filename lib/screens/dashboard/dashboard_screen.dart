@@ -1,12 +1,11 @@
 import 'package:watcher_web/responsive.dart';
-import 'package:watcher_web/screens/dashboard/components/my_fields.dart';
+import 'package:watcher_web/screens/dashboard/my_fields.dart';
 import 'package:flutter/material.dart';
-
 import '../../constants.dart';
-import 'components/header.dart';
+import 'header.dart';
 
-import 'components/recent_files.dart';
-import 'components/storage_details.dart';
+import 'recent_files.dart';
+import 'storage_details.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});

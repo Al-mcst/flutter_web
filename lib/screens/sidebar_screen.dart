@@ -1,13 +1,15 @@
-import 'package:watcher_web/controllers/MenuAppController.dart';
-import 'package:watcher_web/responsive.dart';
-import 'package:watcher_web/screens/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:watcher_web/controllers/MenuAppController.dart';
+import 'package:watcher_web/responsive.dart';
+import 'sidebar.dart';
+import 'package:watcher_web/screens/dashboard/dashboard_screen.dart';
+//import 'package:watcher_web/screens/PDRRMO/employee_screen.dart';
+import 'package:watcher_web/screens/resident/resident_screen.dart';
+import 'package:watcher_web/screens/evacuation/evacuation_screen.dart';
 
-import 'components/side_menu.dart';
-
-class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+class SidebarScreen extends StatelessWidget {
+  const SidebarScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,22 @@ class MainScreen extends StatelessWidget {
               flex: 5,
               child: DashboardScreen(),
             ),
+            //
+            const Expanded(
+              // It takes 5/6 part of the screen
+              flex: 5,
+              child: ResidentScreen(),
+            ),
+            const Expanded(
+              // It takes 5/6 part of the screen
+              flex: 5,
+              child: EvacuationScreen(),
+            ),
+            // const Expanded(
+            //   // It takes 5/6 part of the screen
+            //   flex: 5,
+            //   child: LogoutScreen(),
+            // ),
           ],
         ),
       ),
