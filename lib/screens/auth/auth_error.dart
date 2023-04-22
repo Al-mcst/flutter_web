@@ -2,6 +2,7 @@ enum AuthError {
   invalidEmail,
   userDisabled,
   userNotFound,
+  invalidPhoneNumber,
   wrongPassword,
   emailAlreadyInUse,
   invalidCredential,

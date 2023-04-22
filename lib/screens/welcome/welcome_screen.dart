@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../responsive.dart';
-import '../../screens/background.dart';
+import 'package:watcher_web/responsive.dart';
+import 'package:watcher_web/controllers/background.dart';
 import 'login_signup.dart';
 import 'welcome_theme.dart';
 

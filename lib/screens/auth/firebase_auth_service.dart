@@ -17,22 +17,18 @@ class AuthenticationService implements AuthService {
       return UserEntity.empty();
     }
 
-    var splittedName = ['Name ', 'LastName'];
-    if (user.displayName != null) {
-      splittedName = user.displayName!.split(' ');
-    }
-
     final map = <String, dynamic>{
       'id': user.uid,
-      'firstName': splittedName.first,
-      'lastName': splittedName.last,
-      'email': user.email ?? '',
+      'firstName': '',
+      'lastName': '',
+      'email': user.email,
       'emailVerified': user.emailVerified,
-      'imageUrl': user.photoURL ?? '',
-      'isAnonymous': user.isAnonymous,
-      'age': 0,
+      // 'imageUrl': user.photoURL ?? '',
+      //'isAnonymous': user.isAnonymous,
+      //'age': 0,
       'phoneNumber': '',
-      'address': '',
+      'password': '',
+      //'address': '',
     };
     return UserEntity.fromJson(map);
   }
@@ -73,10 +69,12 @@ class AuthenticationService implements AuthService {
   }
 
   @override
-  Future<UserEntity> createUserWithEmailAndPassword({
-    required String email,
-    required String password,
-  }) async {
+  Future<UserEntity> createUserWithEmailAndPassword(
+      {required String email,
+      required String password,
+      required String firstName,
+      required String lastName,
+      required String phoneNumber}) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
@@ -97,6 +95,8 @@ class AuthenticationService implements AuthService {
         return AuthError.userDisabled;
       case 'user-not-found':
         return AuthError.userNotFound;
+      case 'invalid-phone-number':
+        return AuthError.invalidPhoneNumber;
       case 'wrong-password':
         return AuthError.wrongPassword;
       case 'email-already-in-use':

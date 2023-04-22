@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:watcher_web/constants.dart';
-import 'package:watcher_web/screens/sidebar_screen.dart';
+import 'package:watcher_web/controllers/sidebar_screen.dart';
 import 'package:watcher_web/controllers/MenuAppController.dart';
 
 class Screen extends StatelessWidget {

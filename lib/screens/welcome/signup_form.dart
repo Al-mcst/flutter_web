@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:watcher_web/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:watcher_web/screens/screen.dart';
+import 'package:watcher_web/controllers/screen.dart';
 import 'package:watcher_web/screens/auth/auth_bloc.dart';
 import 'have_account.dart';
 import 'login_screen.dart';
@@ -10,8 +10,8 @@ class SignupForm extends StatelessWidget {
   SignupForm({Key? key}) : super(key: key);
 
   // editing Controller
-
-  final nameEditingController = new TextEditingController();
+  final firstNameEditingController = new TextEditingController();
+  final lastNameEditingController = new TextEditingController();
   final phoneNumberEditingController = new TextEditingController();
   final emailEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
@@ -41,7 +41,7 @@ class SignupForm extends StatelessWidget {
           //First Name
           TextFormField(
             autofocus: false,
-            controller: nameEditingController,
+            controller: firstNameEditingController,
             keyboardType: TextInputType.name,
             enableSuggestions: false,
             autocorrect: false,
@@ -56,6 +56,34 @@ class SignupForm extends StatelessWidget {
             },
             decoration: const InputDecoration(
               hintText: "First Name",
+              prefixIcon: Padding(
+                padding: EdgeInsets.all(defaultPadding),
+                child: Icon(Icons.person),
+              ),
+            ),
+          ),
+
+          //Last Name
+          const SizedBox(
+            height: 8.0,
+          ),
+          TextFormField(
+            autofocus: false,
+            controller: lastNameEditingController,
+            keyboardType: TextInputType.name,
+            enableSuggestions: false,
+            autocorrect: false,
+            textInputAction: TextInputAction.next,
+            cursorColor: kPrimaryColor,
+            validator: (value) {
+              //  RegExp regex = new RegExp(r'^.{1,}$');
+              if (value!.isEmpty) {
+                return ("Last Name cannot be Empty");
+              }
+              return null;
+            },
+            decoration: const InputDecoration(
+              hintText: "Last Name",
               prefixIcon: Padding(
                 padding: EdgeInsets.all(defaultPadding),
                 child: Icon(Icons.person),
@@ -79,7 +107,7 @@ class SignupForm extends StatelessWidget {
               if (value!.isEmpty) {
                 return ("Please Enter Your Phone Number");
               }
-              if (!RegExp(r"^(09|\+639)\d{9}$").hasMatch(value)) {
+              if (!RegExp(r'^(09|\+639)\d{9}$').hasMatch(value)) {
                 return ("Please Enter a valid number");
               }
               return null;
@@ -182,7 +210,8 @@ class SignupForm extends StatelessWidget {
             onPressed: () {
               context.read<AuthenticationBloc>().add(
                     CreateAccountEvent(
-                      name: nameEditingController.text,
+                      firstName: firstNameEditingController.text,
+                      lastName: lastNameEditingController.text,
                       phoneNumber: phoneNumberEditingController.text,
                       email: emailEditingController.text,
                       password: passwordEditingController.text,

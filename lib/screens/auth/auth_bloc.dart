@@ -1,6 +1,6 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'auth_service.dart';
-import 'package:watcher_web/screens/database.dart';
+import 'package:watcher_web/controllers/database.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
@@ -25,7 +25,8 @@ class AuthenticationBloc
         email: event.email,
         password: event.password,
       );
-      final name = await DatabaseService().getUser(email: event.email);
+      final name = await DatabaseService()
+          .getUser(email: event.email, password: event.password);
       emit(SuccessState(name: name!));
     } catch (e) {
       emit(
@@ -44,9 +45,16 @@ class AuthenticationBloc
       await _authService.createUserWithEmailAndPassword(
         email: event.email,
         password: event.password,
+        firstName: event.firstName,
+        lastName: event.lastName,
+        phoneNumber: event.phoneNumber,
       );
-      await DatabaseService().addUser(fullName: event.name, email: event.email);
-      emit(SuccessState(name: event.name));
+      await DatabaseService().addUser(
+          firstName: event.firstName,
+          lastName: event.lastName,
+          phoneNumber: event.phoneNumber,
+          email: event.email);
+      emit(SuccessState(name: event.lastName));
     } catch (e) {
       emit(
         ErrorState(

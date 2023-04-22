@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:watcher_web/constants.dart';
-import 'package:watcher_web/screens/screen.dart';
+import 'package:watcher_web/controllers/screen.dart';
 import 'package:watcher_web/screens/auth/auth_bloc.dart';
 import 'have_account.dart';
 import 'signup_screen.dart';
@@ -39,6 +39,7 @@ class LoginForm extends StatelessWidget {
           TextFormField(
             autofocus: false,
             keyboardType: TextInputType.emailAddress,
+            controller: emailEditingController,
             textInputAction: TextInputAction.next,
             cursorColor: kPrimaryColor,
             validator: (value) {
@@ -64,6 +65,7 @@ class LoginForm extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
               autofocus: false,
+              controller: passwordEditingController,
               textInputAction: TextInputAction.done,
               obscureText: true,
               cursorColor: kPrimaryColor,

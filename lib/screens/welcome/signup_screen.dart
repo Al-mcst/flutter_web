@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:watcher_web/constants.dart';
 import 'package:watcher_web/responsive.dart';
-import '../../screens/background.dart';
+import 'package:watcher_web/controllers/background.dart';
 import 'signup_theme.dart';
 import 'signup_form.dart';
 
