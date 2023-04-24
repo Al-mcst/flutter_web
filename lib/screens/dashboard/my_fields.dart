@@ -1,4 +1,4 @@
-import 'package:watcher_web/models/MyFiles.dart';
+import 'package:watcher_web/screens/dashboard/MyFiles.dart';
 import 'package:watcher_web/responsive.dart';
 import 'package:flutter/material.dart';
 
