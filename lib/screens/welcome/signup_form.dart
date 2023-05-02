@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:watcher_web/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:watcher_web/controllers/screen.dart';
+import 'package:watcher_web/controllers/sidebar_screen.dart';
 import 'package:watcher_web/screens/auth/auth_bloc.dart';
-import 'package:watcher_web/screens/sidebar.dart';
+//import 'package:watcher_web/screens/sidebar.dart';
 import 'have_account.dart';
 import 'login_screen.dart';
 
@@ -25,7 +25,7 @@ class SignupForm extends StatelessWidget {
         if (state is SuccessState) {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const Sidebar(),
+              builder: (context) => const SidebarScreen(),
             ),
           );
         }

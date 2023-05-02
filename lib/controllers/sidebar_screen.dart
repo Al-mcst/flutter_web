@@ -15,7 +15,7 @@ class SidebarScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: context.read<MenuAppController>().scaffoldKey,
-      drawer: const SideMenu(),
+      drawer: const SideMenu(title: 'Admin Dashboard'),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,24 +23,24 @@ class SidebarScreen extends StatelessWidget {
             // We want this side menu only for large screen
             if (Responsive.isDesktop(context))
               const Expanded(
-                child: SideMenu(),
+                child: SideMenu(title: 'Admin Dashboard'),
               ),
             const Expanded(
               flex: 4,
               child: DashboardScreen(),
             ),
-            const Expanded(
-              flex: 4,
-              child: ResidentScreen(),
-            ),
-            const Expanded(
-              flex: 4,
-              child: EvacuationScreen(),
-            ),
-            const Expanded(
-              flex: 4,
-              child: WelcomeScreen(),
-            ),
+            // const Expanded(
+            //   flex: 4,
+            //   child: ResidentScreen(),
+            // ),
+            // const Expanded(
+            //   flex: 4,
+            //   child: EvacuationScreen(),
+            // ),
+            // const Expanded(
+            //   flex: 4,
+            //   child: WelcomeScreen(),
+            // ),
           ],
         ),
       ),

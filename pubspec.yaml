@@ -33,7 +33,6 @@ dependencies:
 
   google_fonts: ^4.0.3
   flutter_svg: ^0.22.0
-  fl_chart: ^0.36.1
   provider: ^6.0.5
   data_table_2: ^2.0.3
   cloud_firestore: ^4.5.1
@@ -44,10 +43,15 @@ dependencies:
   flutter_bloc: ^8.1.2
   equatable: ^2.0.3
   sidebarx: ^0.14.0
-  
+  qr_flutter: ^3.2.0
+  encrypt: ^5.0.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
+  charts_flutter_new: ^0.12.0
+  firebase_database: ^10.1.1
+  syncfusion_flutter_charts: ^20.3.47
+  fl_chart: ^0.62.0
 
 dev_dependencies:
   flutter_test:

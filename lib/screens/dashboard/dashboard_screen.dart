@@ -5,7 +5,7 @@ import '../../constants.dart';
 import 'header.dart';
 
 import 'recent_files.dart';
-import 'storage_details.dart';
+import 'water_chart.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -32,7 +32,7 @@ class DashboardScreen extends StatelessWidget {
                       const RecentFiles(),
                       if (Responsive.isMobile(context))
                         const SizedBox(height: defaultPadding),
-                      if (Responsive.isMobile(context)) const StarageDetails(),
+                      if (Responsive.isMobile(context)) const ChartPage(),
                     ],
                   ),
                 ),
@@ -42,7 +42,7 @@ class DashboardScreen extends StatelessWidget {
                 if (!Responsive.isMobile(context))
                   const Expanded(
                     flex: 2,
-                    child: StarageDetails(),
+                    child: ChartPage(),
                   ),
               ],
             )
