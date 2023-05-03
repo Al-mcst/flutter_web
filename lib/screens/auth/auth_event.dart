@@ -15,14 +15,17 @@ class LoginWithEmailAndPasswordEvent extends AuthenticationEvent {
 class CreateAccountEvent extends AuthenticationEvent {
   final String email;
   final String password;
-  final String firstName;
-  final String lastName;
+  final String name;
+
+  // final String firstName;
+  // final String lastName;
   final String phoneNumber;
 
   CreateAccountEvent(
       {required this.email,
       required this.password,
-      required this.firstName,
-      required this.lastName,
+      required this.name,
+      // required this.firstName,
+      // required this.lastName,
       required this.phoneNumber});
 }

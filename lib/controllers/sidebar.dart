@@ -1,36 +1,49 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:watcher_web/screens/welcome/welcome_screen.dart';
 
-class SideMenu extends StatelessWidget {
-  const SideMenu({
-    Key? key,
-    required String title,
-  }) : super(key: key);
+class Sidebar extends StatefulWidget {
+  const Sidebar({super.key});
+
+  @override
+  _SidebarState createState() => _SidebarState();
+}
+
+class _SidebarState extends State<Sidebar> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  String _name = "";
+  String _email = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getUserInfo();
+  }
+
+  Future<void> getUserInfo() async {
+    final User? user = _auth.currentUser;
+    String? email = user?.email;
+    final DocumentSnapshot snapshot =
+        await firestore.collection('employee').doc(email).get();
+    setState(() {
+      _name = (snapshot.data() as dynamic)['name'];
+      _email = (snapshot.data() as dynamic)['email'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
-          const UserAccountsDrawerHeader(
-            decoration: BoxDecoration(color: Color(0xff764abc)),
-            accountName: Text(
-              "Pinkesh Darji",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            accountEmail: Text(
-              "pinkesh.earth@gmail.com",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            currentAccountPicture: FlutterLogo(),
+          UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(color: Color(0xff764abc)),
+            accountName: Text(_name),
+            accountEmail: Text(_email),
+            currentAccountPicture: const FlutterLogo(),
           ),
           ListTile(
             leading: const Icon(
@@ -94,6 +107,7 @@ class SideMenu extends StatelessWidget {
     );
   }
 }
+
 
 
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:watcher_web/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:watcher_web/controllers/sidebar_screen.dart';
+import 'package:watcher_web/controllers/screen.dart';
 import 'package:watcher_web/screens/auth/auth_bloc.dart';
 //import 'package:watcher_web/screens/sidebar.dart';
 import 'have_account.dart';
@@ -11,8 +11,9 @@ class SignupForm extends StatelessWidget {
   SignupForm({Key? key}) : super(key: key);
 
   // editing Controller
-  final firstNameEditingController = new TextEditingController();
-  final lastNameEditingController = new TextEditingController();
+  // final firstNameEditingController = new TextEditingController();
+  final nameEditingController = new TextEditingController();
+  //final lastNameEditingController = new TextEditingController();
   final phoneNumberEditingController = new TextEditingController();
   final emailEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
@@ -25,7 +26,7 @@ class SignupForm extends StatelessWidget {
         if (state is SuccessState) {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const SidebarScreen(),
+              builder: (context) => const Screen(),
             ),
           );
         }
@@ -42,7 +43,7 @@ class SignupForm extends StatelessWidget {
           //First Name
           TextFormField(
             autofocus: false,
-            controller: firstNameEditingController,
+            controller: nameEditingController,
             keyboardType: TextInputType.name,
             enableSuggestions: false,
             autocorrect: false,
@@ -51,12 +52,12 @@ class SignupForm extends StatelessWidget {
             validator: (value) {
               //  RegExp regex = new RegExp(r'^.{1,}$');
               if (value!.isEmpty) {
-                return ("First Name cannot be Empty");
+                return ("Name cannot be Empty");
               }
               return null;
             },
             decoration: const InputDecoration(
-              hintText: "First Name",
+              hintText: "Name",
               prefixIcon: Padding(
                 padding: EdgeInsets.all(defaultPadding),
                 child: Icon(Icons.person),
@@ -65,32 +66,32 @@ class SignupForm extends StatelessWidget {
           ),
 
           //Last Name
-          const SizedBox(
-            height: 8.0,
-          ),
-          TextFormField(
-            autofocus: false,
-            controller: lastNameEditingController,
-            keyboardType: TextInputType.name,
-            enableSuggestions: false,
-            autocorrect: false,
-            textInputAction: TextInputAction.next,
-            cursorColor: kPrimaryColor,
-            validator: (value) {
-              //  RegExp regex = new RegExp(r'^.{1,}$');
-              if (value!.isEmpty) {
-                return ("Last Name cannot be Empty");
-              }
-              return null;
-            },
-            decoration: const InputDecoration(
-              hintText: "Last Name",
-              prefixIcon: Padding(
-                padding: EdgeInsets.all(defaultPadding),
-                child: Icon(Icons.person),
-              ),
-            ),
-          ),
+          // const SizedBox(
+          //   height: 8.0,
+          // ),
+          // TextFormField(
+          //   autofocus: false,
+          //   controller: lastNameEditingController,
+          //   keyboardType: TextInputType.name,
+          //   enableSuggestions: false,
+          //   autocorrect: false,
+          //   textInputAction: TextInputAction.next,
+          //   cursorColor: kPrimaryColor,
+          //   validator: (value) {
+          //     //  RegExp regex = new RegExp(r'^.{1,}$');
+          //     if (value!.isEmpty) {
+          //       return ("Last Name cannot be Empty");
+          //     }
+          //     return null;
+          //   },
+          //   decoration: const InputDecoration(
+          //     hintText: "Last Name",
+          //     prefixIcon: Padding(
+          //       padding: EdgeInsets.all(defaultPadding),
+          //       child: Icon(Icons.person),
+          //     ),
+          //   ),
+          // ),
 
           //Phone Number
           const SizedBox(
@@ -211,8 +212,9 @@ class SignupForm extends StatelessWidget {
             onPressed: () {
               context.read<AuthenticationBloc>().add(
                     CreateAccountEvent(
-                      firstName: firstNameEditingController.text,
-                      lastName: lastNameEditingController.text,
+                      name: nameEditingController.text,
+                      // firstName: firstNameEditingController.text,
+                      // lastName: lastNameEditingController.text,
                       phoneNumber: phoneNumberEditingController.text,
                       email: emailEditingController.text,
                       password: passwordEditingController.text,

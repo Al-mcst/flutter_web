@@ -45,16 +45,16 @@ class AuthenticationBloc
       await _authService.createUserWithEmailAndPassword(
         email: event.email,
         password: event.password,
-        firstName: event.firstName,
-        lastName: event.lastName,
+        name: event.name,
+        //fullName: event.name,
         phoneNumber: event.phoneNumber,
       );
       await DatabaseService().addUser(
-          firstName: event.firstName,
-          lastName: event.lastName,
+          //name: event.name,
+          name: event.name,
           phoneNumber: event.phoneNumber,
           email: event.email);
-      emit(SuccessState(name: event.lastName));
+      emit(SuccessState(name: event.email));
     } catch (e) {
       emit(
         ErrorState(

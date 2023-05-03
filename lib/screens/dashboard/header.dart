@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:watcher_web/controllers/MenuAppController.dart';
 import 'package:watcher_web/responsive.dart';
 import 'package:flutter/material.dart';
@@ -34,10 +36,34 @@ class Header extends StatelessWidget {
   }
 }
 
-class ProfileCard extends StatelessWidget {
-  const ProfileCard({
-    Key? key,
-  }) : super(key: key);
+class ProfileCard extends StatefulWidget {
+  const ProfileCard({super.key});
+  @override
+  _ProfileCardState createState() => _ProfileCardState();
+}
+
+class _ProfileCardState extends State<ProfileCard> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  String _name = "";
+  String _email = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getUserInfo();
+  }
+
+  Future<void> getUserInfo() async {
+    final User? user = _auth.currentUser;
+    String? email = user?.email;
+    final DocumentSnapshot snapshot =
+        await firestore.collection('employee').doc(email).get();
+    setState(() {
+      _name = (snapshot.data() as dynamic)['name'];
+      _email = (snapshot.data() as dynamic)['email'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,14 +80,15 @@ class ProfileCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(
-            "assets/images/profile_pic.png",
-            height: 38,
+          const Icon(
+            Icons.person,
+            weight: 20,
           ),
           if (!Responsive.isMobile(context))
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text("Angelina Jolie"),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+              child: Text(_name),
             ),
           const Icon(Icons.keyboard_arrow_down),
         ],

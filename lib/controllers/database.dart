@@ -1,20 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
-  Future<void> addUser({
-    required String firstName,
-    required String lastName,
-    required String phoneNumber,
-    required String email,
-  }) async {
+  Future<void> addUser(
+      {
+      // required String firstName,
+      // required String lastName,
+      required String name,
+      required String phoneNumber,
+      required String email}) async {
     try {
       CollectionReference users =
           FirebaseFirestore.instance.collection('employee');
       // Call the user's CollectionReference to add a new user
       await users.doc(email).set({
         'email': email,
-        'firstName': firstName,
-        'lastName': lastName,
+        'name': name,
+        // 'firstName': firstName,
+        // 'lastName': lastName,
         'phoneNumber': phoneNumber
       });
     } catch (e) {

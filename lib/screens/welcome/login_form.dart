@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:watcher_web/constants.dart';
-import 'package:watcher_web/controllers/sidebar_screen.dart';
+import 'package:watcher_web/controllers/screen.dart';
 import 'package:watcher_web/screens/auth/auth_bloc.dart';
 import 'have_account.dart';
 import 'signup_screen.dart';
@@ -12,9 +12,10 @@ class LoginForm extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final TextEditingController emailEditingController = TextEditingController();
+  final TextEditingController emailEditingController =
+      new TextEditingController();
   final TextEditingController passwordEditingController =
-      TextEditingController();
+      new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class LoginForm extends StatelessWidget {
         if (state is SuccessState) {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const SidebarScreen(),
+              builder: (context) => const Screen(),
             ),
           );
         }

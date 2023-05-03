@@ -17,18 +17,22 @@ class AuthenticationService implements AuthService {
       return UserEntity.empty();
     }
 
+    var splittedName = ['Name ', 'LastName'];
+    if (user.displayName != null) {
+      splittedName = user.displayName!.split(' ');
+    }
+
     final map = <String, dynamic>{
       'id': user.uid,
-      'firstName': '',
-      'lastName': '',
-      'email': user.email,
+      'firstName': splittedName.first,
+      'lastName': splittedName.last,
+      'email': user.email ?? '',
       'emailVerified': user.emailVerified,
-      // 'imageUrl': user.photoURL ?? '',
-      //'isAnonymous': user.isAnonymous,
-      //'age': 0,
+      'imageUrl': user.photoURL ?? '',
+      'isAnonymous': user.isAnonymous,
+      'age': 0,
       'phoneNumber': '',
-      'password': '',
-      //'address': '',
+      'address': '',
     };
     return UserEntity.fromJson(map);
   }
@@ -49,10 +53,6 @@ class AuthenticationService implements AuthService {
     } else {
       await Firebase.initializeApp();
     }
-  }
-
-  Future signOut() async {
-    await _firebaseAuth.signOut();
   }
 
   @override
@@ -76,8 +76,9 @@ class AuthenticationService implements AuthService {
   Future<UserEntity> createUserWithEmailAndPassword(
       {required String email,
       required String password,
-      required String firstName,
-      required String lastName,
+      required String name,
+      // required String firstName,
+      // required String lastName,
       required String phoneNumber}) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(

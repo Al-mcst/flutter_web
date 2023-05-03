@@ -10,6 +10,7 @@ abstract class AuthService {
       {required String email,
       required String password,
       required String phoneNumber,
-      required String firstName,
-      required String lastName});
+      // required String firstName,
+      // required String lastName,
+      required String name});
 }
