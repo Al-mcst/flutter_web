@@ -125,8 +125,8 @@ class _SidebarState extends State<SidebarScreen> {
               ),
               title: const Text('Resident List'),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const UserListsScreen()));
+                // Navigator.of(context).push(MaterialPageRoute(
+                //     builder: (context) => const UserListsScreen()));
               },
             ),
             ListTile(
@@ -144,8 +144,8 @@ class _SidebarState extends State<SidebarScreen> {
               ),
               title: const Text('Generate QR-Code'),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const QRLocationWidget()));
+                //Navigator.of(context).push(MaterialPageRoute(
+                // builder: (context) => const QRLocationWidget()));
               },
             ),
             const Divider(color: Colors.black),

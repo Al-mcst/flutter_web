@@ -1,62 +1,114 @@
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:watcher_web/screens/sidebar_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class QRLocationWidget extends StatefulWidget {
-  const QRLocationWidget({super.key});
+class QrCodePage extends StatefulWidget {
+  const QrCodePage({super.key});
 
   @override
-  _QRLocationWidgetState createState() => _QRLocationWidgetState();
+  QrCodePageState createState() => QrCodePageState();
 }
 
-class _QRLocationWidgetState extends State<QRLocationWidget> {
-  Position? _currentPosition;
-
-  @override
-  void initState() {
-    super.initState();
-    _getLocation();
-  }
-
-  Future<void> _getLocation() async {
-    if (await Permission.location.request().isGranted) {
-      setState(() {
-        _currentPosition = null; // reset position while fetching
-      });
-      final position = await Geolocator.getCurrentPosition();
-      setState(() {
-        _currentPosition = position;
-      });
-    }
-  }
+class QrCodePageState extends State<QrCodePage> {
+  final String _text1 = 'First QR code text';
+  final String _text2 = 'Second QR code text';
 
   @override
   Widget build(BuildContext context) {
-    Scaffold(
-        appBar: AppBar(
-            title: const Text('Watcher Dashboard'),
-            backgroundColor: Colors.black),
-        drawer: const SidebarScreen());
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('QR Codes'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            QrImage(
+              data: _text1,
+              size: 200,
+            ),
+            const SizedBox(height: 20),
+            QrImage(
+              data: _text2,
+              size: 200,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              child: const Text('Save to Firestore'),
+              onPressed: () async {
+                // Get the current user's email
+                final User user = FirebaseAuth.instance.currentUser!;
+                final String email = user.email!;
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (_currentPosition != null)
-          QrImage(
-            data:
-                '${_currentPosition!.latitude},${_currentPosition!.longitude}',
-            size: 200.0,
-          )
-        else
-          const CircularProgressIndicator(),
-        const SizedBox(height: 16.0),
-        ElevatedButton(
-          onPressed: _getLocation,
-          child: const Text('Get Location'),
+                // Save the QR code texts to Firestore
+                await FirebaseFirestore.instance
+                    .collection('user')
+                    .doc(email)
+                    .set({
+                  'qr_text_1': _text1,
+                  'qr_text_2': _text2,
+                });
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('QR codes saved to Firestore!')));
+              },
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
+
+
+// import 'package:flutter/material.dart';
+// import 'qr_image.dart';
+
+// class GenerateQRCode extends StatefulWidget {
+//   const GenerateQRCode({super.key});
+
+//   @override
+//   GenerateQRCodeState createState() => GenerateQRCodeState();
+// }
+
+// class GenerateQRCodeState extends State<GenerateQRCode> {
+//   TextEditingController controller = TextEditingController();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Flutter + QR code'),
+//         centerTitle: true,
+//       ),
+//       body: Column(
+//         crossAxisAlignment: CrossAxisAlignment.center,
+//         children: [
+//           Container(
+//             margin: const EdgeInsets.all(20),
+//             child: TextField(
+//               controller: controller,
+//               decoration: const InputDecoration(
+//                   border: OutlineInputBorder(),
+//                   labelText: 'Enter Evacuation Name'),
+//             ),
+//           ),
+//           //This button when pressed navigates to QR code generation
+//           ElevatedButton(
+//               onPressed: () async {
+//                 Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                     builder: ((context) {
+//                       return QRImage(controller);
+//                     }),
+//                   ),
+//                 );
+//               },
+//               child: const Text('GENERATE QR CODE')),
+//         ],
+//       ),
+//     );
+//   }
+// }

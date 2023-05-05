@@ -436,10 +436,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_maps
-      sha256: eb20a162d642599a05179e2d155b9e803899cb377764fdec9044fa7fa474bfb8
+      sha256: "9b8de39a123fa4a8a742fa908b8135ad8bac6f6718f73c7c5a4742bc6321a588"
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.0"
+    version: "3.4.5"
   googleapis_auth:
     dependency: transitive
     description:
@@ -500,10 +500,10 @@ packages:
     dependency: transitive
     description:
       name: js_wrapping
-      sha256: e385980f7c76a8c1c9a560dfb623b890975841542471eade630b2871d243851c
+      sha256: "807b9bd63a3f29a55d2237c00ede06d65a0cf1915d1ea613c931bedd731fefe6"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.4"
+    version: "0.5.0"
   lints:
     dependency: transitive
     description:
@@ -882,6 +882,14 @@ packages:
     description:
       name: syncfusion_flutter_datagrid
       sha256: "1bd1adc3f69986849c15b61b76bc0494e74b1ebd3b503ea263f2414c803c38b0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "20.4.54"
+  syncfusion_flutter_maps:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_maps
+      sha256: "1c95924e2dee5bbad922c2d2f1d5fb1b13ce4548c34a6d30fe6bf8821dfcfcd6"
       url: "https://pub.dev"
     source: hosted
     version: "20.4.54"

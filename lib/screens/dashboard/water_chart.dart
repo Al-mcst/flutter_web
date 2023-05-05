@@ -1,11 +1,14 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:http/http.dart' as http;
 
-class ChartApp extends StatelessWidget {
-  const ChartApp({super.key});
+void main() {
+  return runApp(ChartApp());
+}
 
+class ChartApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,14 +39,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Future loadSalesData() async {
     final String jsonString = await getJsonFromFirebase();
     final dynamic jsonResponse = json.decode(jsonString);
-    for (Map<String, dynamic> i in jsonResponse) {
+    for (Map<String, dynamic> i in jsonResponse)
       chartData.add(SalesData.fromJson(i));
-    }
   }
 
   Future<String> getJsonFromFirebase() async {
-    String url =
-        "https://watcher-5cf14-default-rtdb.asia-southeast1.firebasedatabase.app/readings.json";
+    String url = "https://flutterdemo-f6d47.firebaseio.com/chartSalesData.json";
     http.Response response = await http.get(Uri.parse(url));
     return response.body;
   }
@@ -70,26 +71,26 @@ class _MyHomePageState extends State<MyHomePage> {
                             yValueMapper: (SalesData sales, _) => sales.sales,
                             // Enable data label
                             dataLabelSettings:
-                                const DataLabelSettings(isVisible: true))
+                                DataLabelSettings(isVisible: true))
                       ]);
                 } else {
                   return Card(
                     elevation: 5.0,
-                    child: SizedBox(
+                    child: Container(
                       height: 100,
                       width: 400,
                       child: Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            const Text('Retriving Firebase data...',
+                            Text('Retriving Firebase data...',
                                 style: TextStyle(fontSize: 20.0)),
-                            SizedBox(
+                            Container(
                               height: 40,
                               width: 40,
                               child: CircularProgressIndicator(
                                 semanticsLabel: 'Retriving Firebase data',
-                                valueColor: const AlwaysStoppedAnimation<Color>(
+                                valueColor: AlwaysStoppedAnimation<Color>(
                                     Colors.blueAccent),
                                 backgroundColor: Colors.grey[300],
                               ),
@@ -113,8 +114,8 @@ class SalesData {
 
   factory SalesData.fromJson(Map<String, dynamic> parsedJson) {
     return SalesData(
-      parsedJson['sensor'].toString(),
-      parsedJson['risk_level'],
+      parsedJson['month'].toString(),
+      parsedJson['sales'],
     );
   }
 }
