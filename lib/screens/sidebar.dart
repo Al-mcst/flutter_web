@@ -145,9 +145,10 @@ class SidebarScreen extends StatelessWidget {
       },
       items: const [
         SidebarXItem(
-          icon: Icons.dashboard,
+          icon: Icons.menu,
           label: '  Dashboard',
         ),
+        SidebarXItem(icon: Icons.dashboard, label: '  Dashboard'),
         SidebarXItem(icon: Icons.list, label: '  Resident List'),
         SidebarXItem(icon: Icons.house, label: '  Evacuation Center'),
         SidebarXItem(icon: Icons.exit_to_app, label: '  Signout'),

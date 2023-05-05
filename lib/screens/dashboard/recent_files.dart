@@ -14,9 +14,9 @@ class RecentFiles extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(defaultPadding),
-      decoration: const BoxDecoration(
-        color: secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+      decoration: BoxDecoration(
+        color: Theme.of(context).canvasColor,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +27,6 @@ class RecentFiles extends StatelessWidget {
           ),
           SizedBox(
             width: double.infinity,
-            height: 400,
             child: DataTable2(
               columnSpacing: defaultPadding,
               minWidth: 600,

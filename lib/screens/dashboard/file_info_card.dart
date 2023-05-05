@@ -16,9 +16,9 @@ class FileInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(defaultPadding),
-      decoration: const BoxDecoration(
-        color: secondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+      decoration: BoxDecoration(
+        color: Theme.of(context).canvasColor,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +40,8 @@ class FileInfoCard extends StatelessWidget {
                   color: info.color,
                 ),
               ),
-              const Icon(Icons.more_vert, color: Colors.white54)
+              Icon(Icons.more_vert,
+                  color: Theme.of(context).colorScheme.background)
             ],
           ),
           Text(
@@ -57,17 +58,11 @@ class FileInfoCard extends StatelessWidget {
             children: [
               Text(
                 "${info.numOfFiles} Files",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: Colors.white70),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
               Text(
                 info.totalStorage!,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           )

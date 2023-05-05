@@ -1,207 +1,120 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:http/http.dart' as http;
 
-var ListName;
-Future<String> getDataChart() async {
-  http.Response response = await http.get(
-    Uri.parse('https://api.comprasextreme.com.br/lista.json'),
-  );
-
-  return response.body;
-}
-
-class ChartPage extends StatefulWidget {
-  const ChartPage({super.key});
-
-  @override
-  _ChartPageState createState() => _ChartPageState();
-}
-
-class _ChartPageState extends State<ChartPage> {
-  List<SampleData> chartData = [];
-  List<Chart> tempList = [];
-  int userId = 0;
-  late Timer timer;
-  int counter = 0;
-
-  Future loadSalesData() async {
-    final dynamic jsonString = await getDataChart();
-    final jsonResponse = json.decode(jsonString);
-
-    FullData fullData = FullData.fromJson(jsonResponse);
-
-    tempList = fullData.chartDataList;
-
-    // clear the chart data list every time before update the list
-    chartData = <SampleData>[];
-
-    for (dynamic chart in tempList) {
-      chartData.add(SampleData(
-          chart.monthDay!, chart.thisMonthOrder!, chart.lastMonthOrder!));
-    }
-  }
-
-//Timer update values
-  void addValue() {
-    setState(() {
-      loadSalesData();
-    });
-  }
-
-  @override
-  void initState() {
-    loadSalesData();
-    timer = Timer.periodic(const Duration(minutes: 5), (Timer t) => addValue());
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    timer.cancel();
-  }
+class ChartApp extends StatelessWidget {
+  const ChartApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-            height: MediaQuery.of(context).size.height / 3,
-            child: FutureBuilder(
-                future: getDataChart(),
-                builder: (context, snapShot) {
-                  return SfCartesianChart(
-                      primaryXAxis: CategoryAxis(
-                          labelPlacement: LabelPlacement.onTicks,
-                          labelRotation: 0,
-                          majorGridLines: const MajorGridLines(width: 1)),
-                      primaryYAxis: NumericAxis(),
-                      series: <ChartSeries<SampleData, num>>[
-                        AreaSeries<SampleData, num>(
-                            gradient: const LinearGradient(
-                                colors: <Color>[
-                                  Color.fromRGBO(60, 32, 217, 0.298),
-                                ],
-                                stops: <double>[
-                                  0.9,
-                                ],
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter),
-                            borderWidth: 2,
-                            borderColor: Color.fromARGB(255, 0, 20, 136),
-                            borderDrawMode: BorderDrawMode.top,
-                            animationDuration: 0,
-                            dataSource: chartData,
-                            xValueMapper: (SampleData sales, _) =>
-                                sales.monthDay,
-                            yValueMapper: (SampleData sales, _) =>
-                                sales.thisMonthOrder,
-                            name: ""),
-                        AreaSeries<SampleData, num>(
-                            gradient: const LinearGradient(
-                                colors: <Color>[
-                                  Color.fromRGBO(24, 179, 215, 0.3),
-                                ],
-                                stops: <double>[
-                                  0.9,
-                                ],
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter),
-                            borderWidth: 2,
-                            borderColor: const Color.fromRGBO(0, 156, 144, 1),
-                            borderDrawMode: BorderDrawMode.top,
-                            animationDuration: 0,
-                            dataSource: chartData,
-                            xValueMapper: (SampleData sales, _) =>
-                                sales.monthDay,
-                            yValueMapper: (SampleData sales, _) =>
-                                sales.lastMonthOrder,
-                            name: "")
-                      ]);
-                })),
-      ],
+    return MaterialApp(
+      title: 'Chart Demo',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: MyHomePage(),
     );
   }
 }
 
-class SampleData {
-  SampleData(this.monthDay, this.thisMonthOrder, this.lastMonthOrder);
+class MyHomePage extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
+  MyHomePage({Key? key}) : super(key: key);
 
-  final int monthDay;
-  final num thisMonthOrder;
-  final num lastMonthOrder;
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class FullData {
-  FullData({required this.chartDataList});
+class _MyHomePageState extends State<MyHomePage> {
+  List<SalesData> chartData = [];
 
-  final List<Chart> chartDataList;
+  @override
+  void initState() {
+    loadSalesData();
+    super.initState();
+  }
 
-  factory FullData.fromJson(Map<String, dynamic> parsedJson) {
-    var list = parsedJson['chart'] as List;
-    List<Chart> chartList = list.map((i) => Chart.fromJson(i)).toList();
-    return FullData(chartDataList: chartList);
+  Future loadSalesData() async {
+    final String jsonString = await getJsonFromFirebase();
+    final dynamic jsonResponse = json.decode(jsonString);
+    for (Map<String, dynamic> i in jsonResponse) {
+      chartData.add(SalesData.fromJson(i));
+    }
+  }
+
+  Future<String> getJsonFromFirebase() async {
+    String url =
+        "https://watcher-5cf14-default-rtdb.asia-southeast1.firebasedatabase.app/readings.json";
+    http.Response response = await http.get(Uri.parse(url));
+    return response.body;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Syncfusion Flutter chart'),
+        ),
+        body: Center(
+          child: FutureBuilder(
+              future: getJsonFromFirebase(),
+              builder: (context, snapShot) {
+                if (snapShot.hasData) {
+                  return SfCartesianChart(
+                      primaryXAxis: CategoryAxis(),
+                      // Chart title
+                      title: ChartTitle(text: 'Half yearly sales analysis'),
+                      series: <ChartSeries<SalesData, String>>[
+                        LineSeries<SalesData, String>(
+                            dataSource: chartData,
+                            xValueMapper: (SalesData sales, _) => sales.month,
+                            yValueMapper: (SalesData sales, _) => sales.sales,
+                            // Enable data label
+                            dataLabelSettings:
+                                const DataLabelSettings(isVisible: true))
+                      ]);
+                } else {
+                  return Card(
+                    elevation: 5.0,
+                    child: SizedBox(
+                      height: 100,
+                      width: 400,
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            const Text('Retriving Firebase data...',
+                                style: TextStyle(fontSize: 20.0)),
+                            SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: CircularProgressIndicator(
+                                semanticsLabel: 'Retriving Firebase data',
+                                valueColor: const AlwaysStoppedAnimation<Color>(
+                                    Colors.blueAccent),
+                                backgroundColor: Colors.grey[300],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              }),
+        ));
   }
 }
 
-class Chart {
-  Chart(
-      {required this.monthDay,
-      required this.thisMonthOrder,
-      required this.lastMonthOrder});
+class SalesData {
+  SalesData(this.month, this.sales);
 
-  final int monthDay;
-  final double thisMonthOrder;
-  final double lastMonthOrder;
+  final String month;
+  final int sales;
 
-  factory Chart.fromJson(Map<String, dynamic> parsedJson) {
-    return Chart(
-        monthDay: parsedJson["day"],
-        thisMonthOrder: double.parse(parsedJson["this_month_order"]),
-        lastMonthOrder: double.parse(parsedJson["last_month_order"]));
+  factory SalesData.fromJson(Map<String, dynamic> parsedJson) {
+    return SalesData(
+      parsedJson['sensor'].toString(),
+      parsedJson['risk_level'],
+    );
   }
 }
-
-// import 'package:flutter/material.dart';
-// import 'package:syncfusion_flutter_charts/charts.dart';
-
-// @override
-//     Widget build(BuildContext context) {
-//         final List<SensorData> chartData = [
-//             SensorData('Apr. 5 (1:00)', 35),
-//             SensorData('Apr. 5 (1:05)', 28),
-//             SensorData('Apr. 5 (1:10)', 34),
-//             SensorData('Apr. 5 (1:15)', 32),
-//             SensorData('Apr. 5 (1:20)', 40),
-//             SensorData('Apr. 5 (1:25)', 35),
-//             SensorData('Apr. 5 (1:30)', 28),
-//             SensorData('Apr. 5 (1:35)', 34),
-//             SensorData('Apr. 5 (1:40)', 32),
-//             SensorData('Apr. 5 (1:45)', 40)
-//         ];
-
-//         return Scaffold(
-//             body: Center(
-//                 child: SfCartesianChart(
-//                     primaryXAxis: DateTimeAxis(),
-//                     series: <ChartSeries>[
-//                         // Renders line chart
-//                         LineSeries<SensorData, String>(
-//                             dataSource: chartData,
-//                             xValueMapper: (SensorData distance, _) => distance.day,
-//                             yValueMapper: (SensorData distance, _) => distance.distance
-//                         )
-//                     ]
-//                 )
-//             )
-//         );
-//     }
-
-//     class SensorData {
-//         SensorData(this.day, this.distance);
-//         final String day;
-//         final double distance;
-//     }

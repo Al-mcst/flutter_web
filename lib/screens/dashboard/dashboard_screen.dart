@@ -1,11 +1,12 @@
 import 'package:watcher_web/responsive.dart';
 import 'package:watcher_web/screens/dashboard/my_fields.dart';
 import 'package:flutter/material.dart';
+
 import '../../constants.dart';
 import 'header.dart';
 
 import 'recent_files.dart';
-import 'water_chart.dart';
+import 'storage_details.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -14,7 +15,6 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
-        primary: false,
         padding: const EdgeInsets.all(defaultPadding),
         child: Column(
           children: [
@@ -32,7 +32,7 @@ class DashboardScreen extends StatelessWidget {
                       const RecentFiles(),
                       if (Responsive.isMobile(context))
                         const SizedBox(height: defaultPadding),
-                      if (Responsive.isMobile(context)) const ChartPage(),
+                      if (Responsive.isMobile(context)) const StarageDetails(),
                     ],
                   ),
                 ),
@@ -42,7 +42,7 @@ class DashboardScreen extends StatelessWidget {
                 if (!Responsive.isMobile(context))
                   const Expanded(
                     flex: 2,
-                    child: ChartPage(),
+                    child: StarageDetails(),
                   ),
               ],
             )

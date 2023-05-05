@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:watcher_web/screens/dashboard/MyFiles.dart';
 import 'package:watcher_web/responsive.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class MyFiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final Size _size = MediaQuery.of(context).size;
     return Column(
       children: [
         Row(
@@ -22,29 +23,50 @@ class MyFiles extends StatelessWidget {
               "My Files",
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            ElevatedButton.icon(
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(
-                  horizontal: defaultPadding * 1.5,
-                  vertical:
-                      defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
+            Row(
+              children: [
+                ElevatedButton.icon(
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: defaultPadding * 1.5,
+                      vertical: defaultPadding /
+                          (Responsive.isMobile(context) ? 2 : 1),
+                    ),
+                  ),
+                  onPressed: () {
+                    AdaptiveTheme.of(context).toggleThemeMode();
+                  },
+                  icon: const Icon(Icons.ac_unit_sharp),
+                  label: const Text("Change Theme"),
                 ),
-              ),
-              onPressed: () {},
-              icon: const Icon(Icons.add),
-              label: const Text("Add New"),
+                const SizedBox(
+                  width: 20,
+                ),
+                ElevatedButton.icon(
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: defaultPadding * 1.5,
+                      vertical: defaultPadding /
+                          (Responsive.isMobile(context) ? 2 : 1),
+                    ),
+                  ),
+                  onPressed: () {},
+                  icon: const Icon(Icons.add),
+                  label: const Text("Add New"),
+                ),
+              ],
             ),
           ],
         ),
         const SizedBox(height: defaultPadding),
         Responsive(
           mobile: FileInfoCardGridView(
-            crossAxisCount: size.width < 650 ? 2 : 4,
-            childAspectRatio: size.width < 650 && size.width > 350 ? 1.3 : 1,
+            crossAxisCount: _size.width < 650 ? 2 : 4,
+            childAspectRatio: _size.width < 650 && _size.width > 350 ? 1.3 : 1,
           ),
           tablet: const FileInfoCardGridView(),
           desktop: FileInfoCardGridView(
-            childAspectRatio: size.width < 1400 ? 1.1 : 1.4,
+            childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
           ),
         ),
       ],

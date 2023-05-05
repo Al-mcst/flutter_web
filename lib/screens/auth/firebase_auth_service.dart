@@ -55,6 +55,10 @@ class AuthenticationService implements AuthService {
     }
   }
 
+  Future signOut() async {
+    await _firebaseAuth.signOut();
+  }
+
   @override
   Future<UserEntity> signInWithEmailAndPassword({
     required String email,

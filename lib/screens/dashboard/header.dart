@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:watcher_web/controllers/MenuAppController.dart';
 import 'package:watcher_web/responsive.dart';
 import 'package:flutter/material.dart';
@@ -36,34 +34,10 @@ class Header extends StatelessWidget {
   }
 }
 
-class ProfileCard extends StatefulWidget {
-  const ProfileCard({super.key});
-  @override
-  _ProfileCardState createState() => _ProfileCardState();
-}
-
-class _ProfileCardState extends State<ProfileCard> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  String _name = "";
-  String _email = "";
-
-  @override
-  void initState() {
-    super.initState();
-    getUserInfo();
-  }
-
-  Future<void> getUserInfo() async {
-    final User? user = _auth.currentUser;
-    String? email = user?.email;
-    final DocumentSnapshot snapshot =
-        await firestore.collection('employee').doc(email).get();
-    setState(() {
-      _name = (snapshot.data() as dynamic)['name'];
-      _email = (snapshot.data() as dynamic)['email'];
-    });
-  }
+class ProfileCard extends StatelessWidget {
+  const ProfileCard({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,21 +48,20 @@ class _ProfileCardState extends State<ProfileCard> {
         vertical: defaultPadding / 2,
       ),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: Theme.of(context).canvasColor,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         border: Border.all(color: Colors.white10),
       ),
       child: Row(
         children: [
-          const Icon(
-            Icons.person,
-            weight: 20,
+          Image.asset(
+            "assets/images/profile_pic.png",
+            height: 38,
           ),
           if (!Responsive.isMobile(context))
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text(_name),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+              child: Text("Angelina Jolie"),
             ),
           const Icon(Icons.keyboard_arrow_down),
         ],
@@ -107,7 +80,7 @@ class SearchField extends StatelessWidget {
     return TextField(
       decoration: InputDecoration(
         hintText: "Search",
-        fillColor: secondaryColor,
+        fillColor: Theme.of(context).canvasColor,
         filled: true,
         border: const OutlineInputBorder(
           borderSide: BorderSide.none,

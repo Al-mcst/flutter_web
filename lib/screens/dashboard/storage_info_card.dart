@@ -46,16 +46,16 @@ class StorageInfoCard extends StatelessWidget {
                   ),
                   Text(
                     "$numOfFiles Files",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(color: Colors.white70),
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),
             ),
           ),
-          Text(amountOfFiles)
+          Text(
+            amountOfFiles,
+            style: Theme.of(context).textTheme.bodyLarge,
+          )
         ],
       ),
     );
