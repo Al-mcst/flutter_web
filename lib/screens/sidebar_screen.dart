@@ -2,7 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:watcher_web/screens/dashboard/dashboard.dart';
-import 'package:watcher_web/screens/generate_qr/generate_qr.dart';
+import 'package:watcher_web/screens/dashboard/dashboard_screen.dart';
+import 'package:watcher_web/screens/generate_qr/qr_code.dart';
+import 'package:watcher_web/screens/generate_qr/screen.dart';
+import 'package:watcher_web/screens/generate_qr/user_count.dart';
 import 'package:watcher_web/screens/resident/user_list.dart';
 import 'package:watcher_web/screens/welcome/welcome_screen.dart';
 
@@ -125,27 +128,27 @@ class _SidebarState extends State<SidebarScreen> {
               ),
               title: const Text('Resident List'),
               onTap: () {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (context) => const UserListsScreen()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const UserListsScreen()));
               },
             ),
-            ListTile(
-              leading: const Icon(
-                Icons.house,
-              ),
-              title: const Text('Evacuation Center'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
+            // ListTile(
+            //   leading: const Icon(
+            //     Icons.house,
+            //   ),
+            //   title: const Text('Evacuation Center'),
+            //   onTap: () {
+            //     Navigator.pop(context);
+            //   },
+            // ),
             ListTile(
               leading: const Icon(
                 Icons.edit_document,
               ),
               title: const Text('Generate QR-Code'),
               onTap: () {
-                //Navigator.of(context).push(MaterialPageRoute(
-                // builder: (context) => const QRLocationWidget()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Screens()));
               },
             ),
             const Divider(color: Colors.black),

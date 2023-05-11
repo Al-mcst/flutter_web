@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:watcher_web/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:watcher_web/screens/dashboard/dashboard_screen.dart';
 
 ///import 'package:watcher_web/controllers/main.dart';
 //import 'package:watcher_web/controllers/main_screen.dart';

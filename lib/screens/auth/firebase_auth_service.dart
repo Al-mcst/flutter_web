@@ -45,6 +45,8 @@ class AuthenticationService implements AuthService {
           options: const FirebaseOptions(
               apiKey: "AIzaSyAucWpV-QfX4W9lD45aLcIGIpwIZKm6bDI",
               authDomain: "watcher-5cf14.firebaseapp.com",
+              databaseURL:
+                  "https://watcher-5cf14-default-rtdb.asia-southeast1.firebasedatabase.app",
               projectId: "watcher-5cf14",
               storageBucket: "watcher-5cf14.appspot.com",
               messagingSenderId: "466249108854",
